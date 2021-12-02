@@ -17,7 +17,11 @@ def prnt_line(pkt):
     be raw, but print out as if it were bytes
     '''
     p = bytes(pkt[UDP].payload)
-    print(p.decode(), end='')
+    line = p.decode()
+    if not line.endswith('\n'):
+        line += "\n"
+
+    print(line, end='')
 
 
 def get_syslog_port_from_container(cont):
