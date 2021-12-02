@@ -7,14 +7,26 @@ This also prevents local tailing of the logs though.
 
 This image allows you to watch logs for any services that Logspout has configured to send using the `syslog` protocol.
 
-    docker run --rm --net=host [-v /var/run/docker.sock:/var/run/docker.sock] ghcr.io/btasker/logspout-syslog-watch:0.1 [container name or dest port]
-
-Example:
-
-    docker run --rm --net=host -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/btasker/logspout-syslog-watch:0.1 hello-world
-    docker run --rm --net=host ghcr.io/btasker/logspout-syslog-watch:0.1 12345
+    docker run -a stdout --rm --net=host [-v /var/run/docker.sock:/var/run/docker.sock] ghcr.io/btasker/logspout-syslog-watch:0.1 [container name or dest port]
 
 If a port is specified, it should be the destination syslog port. Ordinarily, it's better to provide the container name (or id) of the container you want to tail logs for.
+
+
+### Examples
+
+Capture logging info for container named `hello-world`
+
+    docker run -a stdout --rm --net=host -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/btasker/logspout-syslog-watch:0.1 hello-world
+
+Capture logs destined for port 12345
+
+    docker run -a stdout --rm --net=host ghcr.io/btasker/logspout-syslog-watch:0.1 12345
+
+Capture logs for `hello-world` and write a copy to `foo.log`
+
+    docker run -a stdout --rm --net=host -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/btasker/logspout-syslog-watch:0.1 hello-world | tee foo.log
+
+
 
 
 ### Notes
